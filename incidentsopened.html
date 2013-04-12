@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<style>
+ 
+body {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+h1 {
+  font:40px sans-serif;
+}
+
+h2 {
+  font:15px sans-serif;
+}
+
+.day {
+  fill: #fff;
+  stroke: #ccc;
+  z-index:1;
+}
+
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.toplink {
+  z-index: 100000;
+  display:block;
+  position:relative;
+}
+
+  rect:hover
+  {
+    opacity: 0.75;
+  }
+
+
+.RdYlGn .q10-11{fill:rgb(165,0,38)}
+.RdYlGn .q9-11{fill:rgb(215,48,39)}
+.RdYlGn .q8-11{fill:rgb(244,109,67)}
+.RdYlGn .q7-11{fill:rgb(253,174,97)}
+.RdYlGn .q6-11{fill:rgb(254,224,139)}
+.RdYlGn .q5-11{fill:rgb(255,255,191)}
+.RdYlGn .q4-11{fill:rgb(217,239,139)}
+.RdYlGn .q3-11{fill:rgb(166,217,106)}
+.RdYlGn .q2-11{fill:rgb(102,189,99)}
+.RdYlGn .q1-11{fill:rgb(26,152,80)}
+.RdYlGn .q0-11{fill:rgb(0,104,55)}
+ 
+</style>
+<title>Incidents Opened by STs by Day</title>
+</head>
+<body>
+
+  <h1>Incidents Opened by STs by Day</h1>
+  <h2>Hover over a day and it'll give you the date and the number of incidents opened on that day.</h2>
+  <h2>Click on a day! It will search SN for incidents opened on that day.</h2>
+
+<script src="d3.v3.min.js"></script>
+<script>
+ 
+var width = 960,
+    height = 136,
+    cellSize = 17; // cell size
+ 
+var day = d3.time.format("%w"),
+    week = d3.time.format("%U"),
+    percent = d3.format(".1%"),
+    format = d3.time.format("%Y-%m-%d");
+
+ 
+var svg = d3.select("body").selectAll("svg")
+    .data(d3.range(2012, 2014))
+  .enter().append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "RdYlGn")
+  .append("g")
+    .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+ 
+//Display Year
+svg.append("text")
+    .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+    .style("text-anchor", "middle")
+    .text(function(d) { return d; });
+
+//Color each of the day squares?
+var rect = svg.selectAll(".day")
+    .data(function(d) { return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+    .enter()
+    .append("a")
+    .attr("xlink:href",function(d){
+      date = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString() + '-' +  d.getDate().toString()
+      return "https://yale.service-now.com/incident_list.do?sysparm_query=incident_stateIN6%2C7%5Eassignment_group%3Dd32a8558d81de8407ac0638b5167dc58%5EORassignment_group%3D8816844390083c40fde6c4b91cbd3014%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15ba%5EORassignment_group%3D60160aa02b3c3000fcb01abf59da15d7%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15f3%5EORassignment_group%3Db4164aa02b3c3000fcb01abf59da151c%5EORassignment_group%3Df8164aa02b3c3000fcb01abf59da1537%5EORassignment_group%3D2d168aa02b3c3000fcb01abf59da1596%5EORassignment_group%3Db5168aa02b3c3000fcb01abf59da15bf%5EORassignment_group%3D74164aa02b3c3000fcb01abf59da1554%5EORassignment_group%3Db0164aa02b3c3000fcb01abf59da157d%5EORassignment_group%3D51168aa02b3c3000fcb01abf59da152d%5EORassignment_group%3De9168aa02b3c3000fcb01abf59da1549%5EORassignment_group%3D45164aa02b3c3000fcb01abf59da159b%5EORassignment_group%3Dcd164aa02b3c3000fcb01abf59da15b7%5EORassignment_group%3D09164aa02b3c3000fcb01abf59da15d4%5EORassignment_group%3D51164aa02b3c3000fcb01abf59da15f2%5EORassignment_group%3D9d168aa02b3c3000fcb01abf59da150f%5EORassignment_group%3Dfd168aa02b3c3000fcb01abf59da15e7%5E"
+      +"opened_atON"
+      + date
+      + "%40javascript%3Ags.dateGenerate('"
+      + date
+      + "'%2C'start')%40javascript%3Ags.dateGenerate('"
+      + date
+      + "'%2C'end')%5Eu_kb_article%3De6c37a6d2b4c38c0fcb01abf59da1564&sysparm_view="
+      ;})
+    .attr("xlink:show","new")
+    .append("rect")
+    .attr("class", "day")
+    .attr("width", cellSize)
+    .attr("height", cellSize)
+    .attr("x", function(d) { return week(d) * cellSize; })
+    .attr("y", function(d) { return day(d) * cellSize; })
+    .datum(format);
+
+rect.append("title")
+    .text(function(d) { return d; });
+
+svg.selectAll(".month")
+    .data(function(d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+  .enter().append("path")
+    .attr("class", "month")
+    .attr("d", monthPath);
+
+//get all the datas! from the csv
+d3.csv("incidentsopened.csv", function(error, csv) {
+  var data = d3.nest()
+    .key(function(d) { return d.date; })
+    .rollup(function(d) { return (d[0].value); })
+    .map(csv);
+
+    //There must be a cleaner way to get the max of the data
+    var max = d3.max(d3.values(data).map(function(d) { return +d; }));
+
+    var color = d3.scale.quantize()
+        .domain([0, max])
+        .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
+
+  rect.filter(function(d) { return d in data; })
+      .attr("class", function(d) { return "day " + color(data[d]); })
+    .select("title")
+      .text(function(d) { return d + ": " + data[d]; });
+
+
+
+
+});
+
+
+//Draw boxes around the months
+function monthPath(t0) {
+  var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+      d0 = +day(t0), w0 = +week(t0),
+      d1 = +day(t1), w1 = +week(t1);
+  return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
+      + "H" + w0 * cellSize + "V" + 7 * cellSize
+      + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
+      + "H" + (w1 + 1) * cellSize + "V" + 0
+      + "H" + (w0 + 1) * cellSize + "Z";
+}
+ 
+d3.select(self.frameElement).style("height", "2910px");
+ 
+</script>
+
