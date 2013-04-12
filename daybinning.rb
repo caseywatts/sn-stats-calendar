@@ -5,7 +5,7 @@ require 'activesupport'
 CSV_FILE = "incident.csv"
 csvfile = CSV.read(CSV_FILE, :headers => true)
 csvfile.each do |inc|
-  inc["start_date"] = Date.strptime(inc["opened_at"], "%Y-%m-%d %H:%M:%S") unless inc["opened_at"].blank?
+  inc["start_date"] = Date.strptime(inc["opened_at"], "%Y-%m-%d %H:%M:%S")
   inc["end_date"] = Date.strptime(inc["u_resolved"], "%Y-%m-%d %H:%M:%S") unless inc["u_resolved"].blank?
 end
 
