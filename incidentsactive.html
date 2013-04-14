@@ -54,12 +54,12 @@ h2 {
 .RdYlGn .q0-11{fill:rgb(0,104,55)}
  
 </style>
-<title>ST Intake Incidents by Day - Still Open</title>
+<title>ST Intake Incidents by Day - Active (not resolved/closed)</title>
 </head>
 <body>
 
-  <h1>ST Intake Incidents by Day - Still Open</h1>
-  <h2>Hover over a day and it'll give you the date and the number of "Generic Intake" (hardware) incidents still open on that day.</h2>
+  <h1>ST Intake Incidents by Day - Active (not resolved/closed)</h1>
+  <h2>Hover over a day and it'll give you the date and the number of incidents.</h2>
   <h2>Click on a day! It will search SN for "Generic Intake" (hardware) incidents still open on that day.</h2>
 
 <script src="d3.v3.min.js"></script>
@@ -96,12 +96,16 @@ var rect = svg.selectAll(".day")
     .enter()
     .append("a")
     .attr("xlink:href",function(d){
-      date = d.getFullYear().toString() + '-' + (d.getMonth()+1).toString() + '-' +  d.getDate().toString()
-      return "https://yale.service-now.com/incident_list.do?sysparm_query=incident_stateIN6%2C7%5Eassignment_group%3Dd32a8558d81de8407ac0638b5167dc58%5EORassignment_group%3D8816844390083c40fde6c4b91cbd3014%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15ba%5EORassignment_group%3D60160aa02b3c3000fcb01abf59da15d7%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15f3%5EORassignment_group%3Db4164aa02b3c3000fcb01abf59da151c%5EORassignment_group%3Df8164aa02b3c3000fcb01abf59da1537%5EORassignment_group%3D2d168aa02b3c3000fcb01abf59da1596%5EORassignment_group%3Db5168aa02b3c3000fcb01abf59da15bf%5EORassignment_group%3D74164aa02b3c3000fcb01abf59da1554%5EORassignment_group%3Db0164aa02b3c3000fcb01abf59da157d%5EORassignment_group%3D51168aa02b3c3000fcb01abf59da152d%5EORassignment_group%3De9168aa02b3c3000fcb01abf59da1549%5EORassignment_group%3D45164aa02b3c3000fcb01abf59da159b%5EORassignment_group%3Dcd164aa02b3c3000fcb01abf59da15b7%5EORassignment_group%3D09164aa02b3c3000fcb01abf59da15d4%5EORassignment_group%3D51164aa02b3c3000fcb01abf59da15f2%5EORassignment_group%3D9d168aa02b3c3000fcb01abf59da150f%5EORassignment_group%3Dfd168aa02b3c3000fcb01abf59da15e7%5Eu_kb_article%3De6c37a6d2b4c38c0fcb01abf59da1564%5Eopened_at%3Cjavascript%3Ags.dateGenerate('"
-        + date
-        + "'%2C'00%3A00%3A00')%5Eu_resolved%3Ejavascript%3Ags.dateGenerate('"
-        + date
-        + "'%2C'00%3A00%3A00')&sysparm_view="
+      var date = new Date(d.getTime());
+      date.setDate(d.getDate()+1);
+      date = date.getFullYear().toString() + '-' + (date.getMonth()+1).toString() + '-' +  date.getDate().toString()
+      return "https://yale.service-now.com/incident_list.do?sysparm_query=assignment_group%3Dd32a8558d81de8407ac0638b5167dc58%5EORassignment_group%3D8816844390083c40fde6c4b91cbd3014%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15ba%5EORassignment_group%3D60160aa02b3c3000fcb01abf59da15d7%5EORassignment_group%3De8160aa02b3c3000fcb01abf59da15f3%5EORassignment_group%3Db4164aa02b3c3000fcb01abf59da151c%5EORassignment_group%3Df8164aa02b3c3000fcb01abf59da1537%5EORassignment_group%3D2d168aa02b3c3000fcb01abf59da1596%5EORassignment_group%3Db5168aa02b3c3000fcb01abf59da15bf%5EORassignment_group%3D74164aa02b3c3000fcb01abf59da1554%5EORassignment_group%3Db0164aa02b3c3000fcb01abf59da157d%5EORassignment_group%3D51168aa02b3c3000fcb01abf59da152d%5EORassignment_group%3De9168aa02b3c3000fcb01abf59da1549%5EORassignment_group%3D45164aa02b3c3000fcb01abf59da159b%5EORassignment_group%3Dcd164aa02b3c3000fcb01abf59da15b7%5EORassignment_group%3D09164aa02b3c3000fcb01abf59da15d4%5EORassignment_group%3D51164aa02b3c3000fcb01abf59da15f2%5EORassignment_group%3D9d168aa02b3c3000fcb01abf59da150f%5EORassignment_group%3Dfd168aa02b3c3000fcb01abf59da15e7%5E"
+      + "u_kb_article%3De6c37a6d2b4c38c0fcb01abf59da1564%5E"
+      + "opened_at<javascript%3Ags.dateGenerate('"
+      + date
+      + "%2000%3A00%3A00'%2C'start')%5Eu_resolved>javascript%3Ags.dateGenerate('"
+      + date
+      + "%2000%3A00%3A00'%2C'end')%5EORu_resolvedISEMPTY%5Eu_incident_type!%3DInvalid&sysparm_view="
       ;})
     .attr("xlink:show","new")
     .append("rect")

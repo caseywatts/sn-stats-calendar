@@ -59,7 +59,7 @@ h2 {
 <body>
 
   <h1>ST Intake Incidents by Day - Resolved</h1>
-  <h2>Hover over a day and it'll give you the date and the number of "Generic Intake" (hardware) incidents resolved on that day.</h2>
+  <h2>Hover over a day and it'll give you the date and the number of incidents.</h2>
   <h2>Click on a day! It will search SN for "Generic Intake" (hardware) incidents resolved on that day.</h2>
 
 <script src="d3.v3.min.js"></script>
@@ -104,7 +104,7 @@ var rect = svg.selectAll(".day")
       + date
       + "'%2C'start')%40javascript%3Ags.dateGenerate('"
       + date
-      + "'%2C'end')%5Eu_kb_article%3De6c37a6d2b4c38c0fcb01abf59da1564&sysparm_view="
+      + "'%2C'end')%5Eu_kb_article%3De6c37a6d2b4c38c0fcb01abf59da1564%5Eu_incident_type!%3DInvalid&sysparm_view="
       ;})
     .attr("xlink:show","new")
     .append("rect")
