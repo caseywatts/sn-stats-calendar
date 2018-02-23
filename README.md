@@ -3,7 +3,7 @@ sn-stats-calendar
 
 This repo has two parts
 
-##Data-parsing script
+## Data-parsing script
 Ruby script which parses a csv export from Service Now into one-day
 bins. Requires Ruby.
 
@@ -13,7 +13,7 @@ bins. Requires Ruby.
 4. It produces two csv files, `incidentsopened.csv` and
    `incidentsresolved.csv`
 
-##Pata-plotting html/css/js
+## Pata-plotting html/css/js
 Source code was taken from d3js.org
 
 1. Results can be visualized by opening `incidentsopened.html` or
